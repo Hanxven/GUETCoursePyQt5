@@ -26,6 +26,12 @@ class HWorker(QObject):
     # 个人信息读取完成
     loadPersonInfoFinished = pyqtSignal(dict)
 
+    # 已选课程查询完成
+    loadSelectedCoursesFinished = pyqtSignal(dict)
+
+    # 当前学期加载完成
+    loadCurrentTermFinished = pyqtSignal(dict)
+
     def __init__(self, parent):
         super().__init__(parent=parent)
         self.guet: GUET = parent.guet
@@ -41,6 +47,14 @@ class HWorker(QObject):
 
     def getPersonInfo(self):
         c = HWorkerTasks(self, HWorkerTasks.GET_PERSON_INFO, GUET=self.guet)
+        self.pool.start(c)
+
+    def getSelectedCourse(self, term: str):
+        c = HWorkerTasks(self, HWorkerTasks.GET_SELECTED_COURSES, GUET=self.guet, term=term)
+        self.pool.start(c)
+
+    def getCurrentTerm(self):
+        c = HWorkerTasks(self, HWorkerTasks.GET_CURRENT_TERM, GUET=self.guet)
         self.pool.start(c)
 
 
@@ -59,6 +73,12 @@ class HWorkerTasks(QRunnable):
 
     # 读取用户信息
     GET_PERSON_INFO = 4
+
+    # 读取已选课程
+    GET_SELECTED_COURSES = 8
+
+    # 读取已选学期
+    GET_CURRENT_TERM = 16
 
     def __init__(self, worker: HWorker, task: int, **kwargs) -> None:
         """
@@ -81,6 +101,10 @@ class HWorkerTasks(QRunnable):
             self.loginToGUET()
         elif self.task == self.GET_PERSON_INFO:
             self.getPersonInfo()
+        elif self.task == self.GET_SELECTED_COURSES:
+            self.getSelectedCourses()
+        elif self.task == self.GET_CURRENT_TERM:
+            self.getCurrentTerm()
 
     def loadValidationCode(self):
         # noinspection PyBroadException
@@ -123,6 +147,37 @@ class HWorkerTasks(QRunnable):
             })
         except Exception as e:
             self.worker.loadPersonInfoFinished.emit({
+                'success': False,
+                'reason': e
+            })
+
+    def getSelectedCourses(self):
+        # noinspection PyBroadException
+        try:
+            guet: GUET = self.kwargs['GUET']
+            d = guet.getSelectedCourses(self.kwargs['term'])
+            self.worker.loadSelectedCoursesFinished.emit({
+                'success': True,
+                'data': d
+            })
+        except Exception as e:
+            self.worker.loadSelectedCoursesFinished.emit({
+                'success': False,
+                'reason': e
+            })
+
+    def getCurrentTerm(self):
+        # noinspection PyBroadException
+        try:
+            guet: GUET = self.kwargs['GUET']
+            d = guet.getCurrentTerm()
+            print(d)
+            self.worker.loadCurrentTermFinished.emit({
+                'success': True,
+                'data': d
+            })
+        except Exception as e:
+            self.worker.loadCurrentTermFinished.emit({
                 'success': False,
                 'reason': e
             })

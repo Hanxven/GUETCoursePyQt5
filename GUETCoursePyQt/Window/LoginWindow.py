@@ -10,6 +10,7 @@ from GUETCoursePyQt.Window.UI_LoginWindow import *
 
 class LoginWindow(QDialog, Ui_LoginWindow):
     loginFinished = pyqtSignal(dict)
+    log = pyqtSignal(str)
 
     def __init__(self, parent):
         super().__init__(parent, flags=Qt.Dialog | Qt.WindowCloseButtonHint)
@@ -40,8 +41,7 @@ class LoginWindow(QDialog, Ui_LoginWindow):
             p.loadFromData(val['data'])
             self.labelCkCode.setPixmap(p)
         else:
-            QMessageBox().critical(self, '发生错误', f'无法获得验证码\n 原因: {val["reason"]}', QMessageBox.Ok)
-
+            QMessageBox().critical(self, '发生错误', f'验证码加载失败\n 原因: {val["reason"]}', QMessageBox.Ok)
 
     def onBtnLoginClicked(self):
         account = self.lineEditAccount.text()
