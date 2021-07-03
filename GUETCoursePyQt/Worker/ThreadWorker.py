@@ -11,11 +11,12 @@ class HWorker(QObject):
     - 主线程创建HWorker实例, 并通过与本实例沟通执行或获得结果(signal&slot)
     - HWorker调用实现了QRunnable的类, 这里为HWorkerTasks
     - HWorker将在新的线程中执行. 线程由线程池自动指定, 由线程池自动回收
-    - 另外, 在这个工程里, HWorker还额外拥有一个GUET类, 用于操作GUET教务
+    - 另外, 在这个工程里, HWorker还额外记录一个GUET类的引用, 来源于主GUI类, 用于操作GUET教务
     """
 
     pool = QThreadPool()  # 线程池
 
+    # signals
     # 验证码读取完成
     validationReadFinished = pyqtSignal(dict)
 
@@ -115,10 +116,10 @@ class HWorkerTasks(QRunnable):
         # noinspection PyBroadException
         try:
             guet: GUET = self.kwargs['GUET']
-            r = guet.getPersonInfo()
+            d = guet.getPersonInfo()
             self.worker.loadPersonInfoFinished.emit({
                 'success': True,
-                'data': r
+                'data': d
             })
         except Exception as e:
             self.worker.loadPersonInfoFinished.emit({

@@ -1,5 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>../Resources/res.txt</file>
+        <file>../Resources/Dark.qss</file>
+        <file>../Resources/Lite.qss</file>
+        <file>../Resources/OSX Dark.qss</file>
+        <file>../Resources/OSX Lite.qss</file>
+        <file>../Resources/DarkMonokai.qss</file>
     </qresource>
 </RCC>

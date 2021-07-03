@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 from GUETCoursePyQt.Worker.ThreadWorker import HWorker
-from UI_LoginWindow import *
+from GUETCoursePyQt.Window.UI_LoginWindow import *
 
 
 class LoginWindow(QDialog, Ui_LoginWindow):
@@ -32,7 +32,7 @@ class LoginWindow(QDialog, Ui_LoginWindow):
         self.btnRefresh.setEnabled(False)
         self.worker.getValidationCode()
 
-    def onLoadValidateCodeFinished(self, val):
+    def onLoadValidateCodeFinished(self, val: dict):
         self.btnRefresh.setEnabled(True)
 
         if val['success']:
@@ -40,7 +40,8 @@ class LoginWindow(QDialog, Ui_LoginWindow):
             p.loadFromData(val['data'])
             self.labelCkCode.setPixmap(p)
         else:
-            QMessageBox().critical(self, '发生错误', f'无法获得验证码\n 原因: {val["reason"]}')
+            QMessageBox().critical(self, '发生错误', f'无法获得验证码\n 原因: {val["reason"]}', QMessageBox.Ok)
+
 
     def onBtnLoginClicked(self):
         account = self.lineEditAccount.text()
@@ -48,15 +49,15 @@ class LoginWindow(QDialog, Ui_LoginWindow):
         ck = self.lineEditValidationCode.text()
 
         if len(account) == 0:
-            QMessageBox().warning(self, '警告', '用户标识为空')
+            QMessageBox().warning(self, '警告', '用户标识为空', QMessageBox.Ok)
             return
 
         if len(password) == 0:
-            QMessageBox().warning(self, '警告', '需要提供凭据')
+            QMessageBox().warning(self, '警告', '需要提供凭据', QMessageBox.Ok)
             return
 
         if len(ck) == 0:
-            QMessageBox().warning(self, '警告', '需要验证码')
+            QMessageBox().warning(self, '警告', '需要验证码', QMessageBox.Ok)
             return
 
         self.btnLogin.setEnabled(False)
@@ -68,11 +69,11 @@ class LoginWindow(QDialog, Ui_LoginWindow):
         self.btnLogin.setText('登录')
 
         if val['success']:
-            QMessageBox().information(self, '登录成功', f'登录成功. 消息\n{val}')
+            # QMessageBox().information(self, '登录成功', f'登录成功. 消息\n{val}', QMessageBox.Ok)
             self.loginFinished.emit(val)
             self.deleteLater()
         else:
-            QMessageBox().critical(self, '登录失败', f'无法登录, 原因\n{val}')
+            QMessageBox().critical(self, '登录失败', f'无法登录, 原因\n{val}', QMessageBox.Ok)
 
 
 if __name__ == '__main__':
