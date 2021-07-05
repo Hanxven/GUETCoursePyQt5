@@ -10,7 +10,6 @@ from GUETCoursePyQt.Window.UI_LoginWindow import *
 
 class LoginWindow(QDialog, Ui_LoginWindow):
     loginFinished = pyqtSignal(dict)
-    log = pyqtSignal(str)
 
     def __init__(self, parent):
         super().__init__(parent, flags=Qt.Dialog | Qt.WindowCloseButtonHint)
@@ -24,12 +23,16 @@ class LoginWindow(QDialog, Ui_LoginWindow):
         self.worker.loginFinished.connect(self.onLoginFinished)
         self.btnRefresh.clicked.connect(self.onBtnRefreshCkCodeClicked)
         self.btnLogin.clicked.connect(self.onBtnLoginClicked)
-        self.loadValidateCodeAsync()
+        self.loadValidateCode()
+
+        # DEBUG
+        self.lineEditAccount.setText('1900301037')
+        self.lineEditPasswd.setText('3092599')
 
     def onBtnRefreshCkCodeClicked(self):
-        self.loadValidateCodeAsync()
+        self.loadValidateCode()
 
-    def loadValidateCodeAsync(self):
+    def loadValidateCode(self):
         self.btnRefresh.setEnabled(False)
         self.worker.getValidationCode()
 

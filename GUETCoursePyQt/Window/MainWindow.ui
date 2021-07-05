@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>766</width>
-    <height>476</height>
+    <width>1137</width>
+    <height>684</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,34 +84,9 @@
           <property name="currentIndex">
            <number>2</number>
           </property>
-          <widget class="QWidget" name="tabLog">
-           <attribute name="title">
-            <string>输出信息</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_5">
-            <property name="leftMargin">
-             <number>5</number>
-            </property>
-            <property name="topMargin">
-             <number>5</number>
-            </property>
-            <property name="rightMargin">
-             <number>5</number>
-            </property>
-            <property name="bottomMargin">
-             <number>5</number>
-            </property>
-            <property name="spacing">
-             <number>5</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QPlainTextEdit" name="textLog"/>
-            </item>
-           </layout>
-          </widget>
           <widget class="QWidget" name="tabPersonInfo">
            <attribute name="title">
-            <string>个人信息</string>
+            <string>基本信息</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_4">
             <property name="leftMargin">
@@ -129,7 +104,14 @@
             <property name="spacing">
              <number>5</number>
             </property>
-            <item row="0" column="0">
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelT1B">
+              <property name="text">
+               <string>详细信息:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
              <widget class="QPlainTextEdit" name="textInfo">
               <property name="lineWrapMode">
                <enum>QPlainTextEdit::NoWrap</enum>
@@ -140,11 +122,65 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QLabel" name="labelT1A">
-              <property name="text">
-               <string>这并不是重要的部分, 因此潦草一点并无问题</string>
+             <widget class="Line" name="line">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
              </widget>
+            </item>
+            <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QLabel" name="labelNameAndNo">
+                <property name="text">
+                 <string>name &amp; id</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::MarkdownText</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelDptNameAndNo">
+                <property name="text">
+                 <string>department name / departement no.</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::MarkdownText</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelGrade">
+                <property name="text">
+                 <string>grade</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::MarkdownText</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelMajorAndNo">
+                <property name="text">
+                 <string>major &amp; major no.</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::MarkdownText</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelCurrentTerm">
+                <property name="text">
+                 <string>current term</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::MarkdownText</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -170,9 +206,21 @@
             </property>
             <item row="1" column="0">
              <widget class="QTableView" name="tableSelectedCourses">
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
               <property name="editTriggers">
                <set>QAbstractItemView::NoEditTriggers</set>
               </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::NoSelection</enum>
+              </property>
+              <property name="gridStyle">
+               <enum>Qt::DashLine</enum>
+              </property>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>140</number>
+              </attribute>
              </widget>
             </item>
             <item row="0" column="0">
@@ -193,7 +241,7 @@
               <item>
                <widget class="QLabel" name="labelT3A">
                 <property name="text">
-                 <string>学期</string>
+                 <string>可选学期</string>
                 </property>
                </widget>
               </item>
@@ -218,6 +266,220 @@
             </item>
            </layout>
           </widget>
+          <widget class="QWidget" name="tabSelectCourses">
+           <attribute name="title">
+            <string>抢课</string>
+           </attribute>
+           <widget class="QComboBox" name="comboBoxMajors">
+            <property name="geometry">
+             <rect>
+              <x>740</x>
+              <y>590</y>
+              <width>361</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="maxVisibleItems">
+             <number>50</number>
+            </property>
+            <property name="duplicatesEnabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QListView" name="listView">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>30</y>
+              <width>256</width>
+              <height>192</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QListView" name="listView_2">
+            <property name="geometry">
+             <rect>
+              <x>290</x>
+              <y>30</y>
+              <width>256</width>
+              <height>192</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>10</y>
+              <width>261</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>类别 list view 所有大类, 是个提取</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_2">
+            <property name="geometry">
+             <rect>
+              <x>290</x>
+              <y>10</y>
+              <width>251</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>专业 list view 跟随类别model动态变化</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_3">
+            <property name="geometry">
+             <rect>
+              <x>570</x>
+              <y>10</y>
+              <width>531</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>可选课程 table view 具体信息...</string>
+            </property>
+           </widget>
+           <widget class="QTableView" name="tableView">
+            <property name="geometry">
+             <rect>
+              <x>570</x>
+              <y>30</y>
+              <width>531</width>
+              <height>192</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton">
+            <property name="geometry">
+             <rect>
+              <x>570</x>
+              <y>230</y>
+              <width>93</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>加入到候选</string>
+            </property>
+           </widget>
+           <widget class="QTableView" name="tableView_2">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>380</y>
+              <width>551</width>
+              <height>192</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_4">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>350</y>
+              <width>381</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>要抢的课程 table view 课程信息 ... (拷贝上文)</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="geometry">
+             <rect>
+              <x>950</x>
+              <y>390</y>
+              <width>93</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>提升优先级</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="geometry">
+             <rect>
+              <x>950</x>
+              <y>430</y>
+              <width>93</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>降低优先级</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_5">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>270</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>这些是草图</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_4">
+            <property name="geometry">
+             <rect>
+              <x>940</x>
+              <y>490</y>
+              <width>131</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>尝试一次选课</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_5">
+            <property name="geometry">
+             <rect>
+              <x>940</x>
+              <y>540</y>
+              <width>131</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>开启蹲课模式</string>
+            </property>
+           </widget>
+           <widget class="QListView" name="listView_3">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>380</y>
+              <width>256</width>
+              <height>192</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_6">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>350</y>
+              <width>181</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>每一项 抢不到的候选</string>
+            </property>
+           </widget>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -231,7 +493,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>766</width>
+     <width>1137</width>
      <height>26</height>
     </rect>
    </property>
@@ -240,24 +502,48 @@
      <string>菜单(&amp;N)</string>
     </property>
     <addaction name="actionLogin"/>
-   </widget>
-   <widget class="QMenu" name="menuSet">
-    <property name="title">
-     <string>设置(&amp;S)</string>
-    </property>
     <addaction name="actionSettings"/>
+    <addaction name="actionErrorWindow"/>
+   </widget>
+   <widget class="QMenu" name="menuRetry">
+    <property name="title">
+     <string>Debug(&amp;D)</string>
+    </property>
+    <addaction name="actionReloadCurTerm"/>
+    <addaction name="actionReloadStuInfo"/>
+    <addaction name="actionReloadPersonInfo"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuSet"/>
+   <addaction name="menuRetry"/>
   </widget>
   <action name="actionLogin">
    <property name="text">
     <string>登录(&amp;L)</string>
    </property>
   </action>
+  <action name="actionReloadCurTerm">
+   <property name="text">
+    <string>ReloadCurTerm</string>
+   </property>
+  </action>
+  <action name="actionReloadStuInfo">
+   <property name="text">
+    <string>ReloadStuInfo</string>
+   </property>
+  </action>
+  <action name="actionReloadPersonInfo">
+   <property name="text">
+    <string>ReloadPersonInfo</string>
+   </property>
+  </action>
   <action name="actionSettings">
    <property name="text">
-    <string>设置</string>
+    <string>设置(&amp;S)</string>
+   </property>
+  </action>
+  <action name="actionErrorWindow">
+   <property name="text">
+    <string>错误输出(&amp;E)</string>
    </property>
   </action>
  </widget>
