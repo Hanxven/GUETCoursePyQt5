@@ -41,6 +41,9 @@ class HWorker(QObject):
     # 读取目前专业列表完成
     loadMajorsFinished = pyqtSignal(dict)
 
+    # 读取部门完成
+    loadDepartmentsFinished = pyqtSignal(dict)
+
     def __init__(self, parent):
         super().__init__(parent=parent)
         self.guet: GUET = parent.guet
@@ -84,6 +87,10 @@ class HWorker(QObject):
         c = HWorkerTasks(self, HWorkerTasks.GET_MAJORS, GUET=self.guet)
         self.pool.start(c)
 
+    def getDepartments(self):
+        c = HWorkerTasks(self, HWorkerTasks.GET_DEPARTMENTS, GUET=self.guet)
+        self.pool.start(c)
+
 
 class HWorkerTasks(QRunnable):
     """
@@ -115,6 +122,9 @@ class HWorkerTasks(QRunnable):
 
     # 读取所有专业
     GET_MAJORS = 128
+
+    # 目前所有部门
+    GET_DEPARTMENTS = 256
 
     def __init__(self, worker: HWorker, task: int, **kwargs) -> None:
         """
@@ -154,6 +164,9 @@ class HWorkerTasks(QRunnable):
 
         elif self.task == self.GET_MAJORS:
             self.getMajors()
+
+        elif self.task == self.GET_DEPARTMENTS:
+            self.getDepartments()
 
     def loadValidationCode(self):
         # noinspection PyBroadException
@@ -276,6 +289,21 @@ class HWorkerTasks(QRunnable):
             })
         except Exception as e:
             self.worker.loadMajorsFinished.emit({
+                'success': False,
+                'reason': e
+            })
+
+    def getDepartments(self):
+        # noinspection PyBroadException
+        try:
+            guet: GUET = self.kwargs['GUET']
+            d = guet.getDepartments()
+            self.worker.loadDepartmentsFinished.emit({
+                'success': True,
+                'data': d
+            })
+        except Exception as e:
+            self.worker.loadDepartmentsFinished.emit({
                 'success': False,
                 'reason': e
             })

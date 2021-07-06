@@ -20,6 +20,7 @@ SELECT_COURSE = '/student/SctSave'  # POST 提交课程
 AVAILABLE_COURSES = '/student/GetPlanCno'  # GET 可选课程
 DROP_COURSE = '/student/UnSct'  # POST 退课
 MAJORS = '/Comm/GetSpno'  # 所有专业
+DEPARTMENTS = '/Comm/GetDepart'  # 所有专业
 
 # 通用headers
 GENERAL_HEADERS: dict[str, str] = {
@@ -34,37 +35,6 @@ GENERAL_HEADERS: dict[str, str] = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                   'Chrome/91.0.4472.114 Safari/537.36 Edg/91.0.864.59',
     'X-Requested-With': 'XMLHttpRequest'
-}
-
-# Names 对应的名称, 因为只给了编号, 所以在这里把编号对应的名字记录在这里
-DPT_NAMES: dict[str, str] = {
-    '00': '全校',
-    '0': '其他单位',
-    '1': '机电工程学院',
-    '2': '信息与通讯学院',
-    '3': '计算机与信息安全学院',
-    '4': '艺术与设计学院',
-    '5': '商学院',
-    '6': '外国语学院',
-    '7': '数学与计算科学学院',
-    '8': '电子工程与自动化学院',
-    '9': '法学院',
-    '10': '材料科学与工程学院',
-    '12': '生命与环境科学学院',
-    '13': '建筑与交通工程学院',
-    '15': '教学实践部',
-    '16': '马克思主义学院',
-    '17': '国际学院',
-    '18': '应用科技学院',
-    '20': '体育部',
-    '22': '人工智能学院',
-    '23': '数字经济学院',
-    '30': '人事处',
-    '31': '国防生学院',
-    '32': '校医院',
-    '33': '学生工作部(处)',
-    '45': '创新学院',
-    'hxv': 'Cocoa In Sugar Here! Put Your Hands Up!'  # 私货
 }
 
 
@@ -207,6 +177,18 @@ class GUET:
             'start': 0,
             'limit': 25,
             'sort': '[{"property":"dptno","direction":"ASC"},{"property":"spno","direction":"ASC"}]'
+        }
+        r = self.s.get(url, headers=GENERAL_HEADERS, params=params)
+        resp: dict = json.loads(r.text)
+        return resp
+
+    def getDepartments(self) -> dict:
+        url = GUET_URL + DEPARTMENTS
+        params = {
+            '_dc': self.get_Dc(),
+            'page': 1,
+            'start': 0,
+            'limit': 25
         }
         r = self.s.get(url, headers=GENERAL_HEADERS, params=params)
         resp: dict = json.loads(r.text)

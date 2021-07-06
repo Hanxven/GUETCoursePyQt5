@@ -21,6 +21,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     - 功能调用: 主程序(QApplication) -> GUI(负责显示与操作) -> Worker(事件分配) -> QRunnable(任务本身) -> GUET工具类(具体处理)
             -> requests库 -> urllib3库 -> ...
     - 事件传递: QRunnable对象其调用对象Worker的signal -> 主程序的onXXX槽函数 (信号和槽方式)
+
+    定义信号和槽, 传递的数据为一个dict, 包含一个success: boolean, 和一个data/reason: dict
+
+    {
+        'success': True (or False),
+
+        'data': dict (if 'success' is True) or
+
+        'reason': dict (if 'success is False)
+    }
     """
     def __init__(self):
         super().__init__(flags=Qt.Widget)
@@ -31,7 +41,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.errorWindow = ErrorWindow(None)
         self.guet = GUET()  # 全局GUET工具包
         self.worker = HWorker(self)  # 所拥有的HWorker
-        self.wmSettings = {
+        self.mwSettings = {
             'stu': {},  # 个人动态信息
             'person': {}  # 个人详细信息
         }  # 全局设置信息保存
@@ -61,28 +71,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def onDialogLoginFinished(self, val: dict):
         self.stackedWidget.setCurrentIndex(1)  # to working page
+
+        # 获取个人详细信息
         self.getPersonInfo()
-        self.getCurrentTerm()
+
+        # 获取当前动态信息, 重要
         self.getStuInfo()
-        self.getMajors()
+        # 完成后 -> self.getCurrentTerm()  需要在getStuInfo完成后进行
+
+        # 获取全部部门
+        self.getDepartments()
+        # 完成后 -> self.getMajors() 需要在getDepartments完成后进行
 
     def getPersonInfo(self):
         # nothing needed
-        # 为什么加了一层函数
-        # 是因为要完成GUI的设置和实际的调用
+        # 你要问为什么加了一层函数
+        # 是因为要完成GUI的状态设置和进行实际的任务分配
+        self.status.showMessage('正在获取个人信息...', 1000)
         self.worker.getPersonInfo()
 
     def getCurrentTerm(self):
+        self.status.showMessage('正在获取可用学期...', 1000)
         self.comboBoxTerms.setEnabled(False)
         self.worker.getCurrentTerm()
 
     def getStuInfo(self):
-        # nothing needed
+        self.status.showMessage('正在获取当前信息...', 1000)
         self.worker.getStuInfo()
 
     def getMajors(self):
+        self.status.showMessage('正在获取专业列表...', 1000)
         self.comboBoxMajors.setEnabled(False)
         self.worker.getMajors()
+
+    def getDepartments(self):
+        self.status.showMessage('正在获取部门列表...', 1000)
+        self.worker.getDepartments()
+
+    def getSelectedCourses(self, term: str):
+        self.status.showMessage(f'正在获取学期{term}已选课程...', 1000)
+        self.worker.getSelectedCourse(term)
 
     def showLoginDialog(self):
         loginWindow = LoginWindow(self)
@@ -101,7 +129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.guet.setTimeout(val['timeout'])
 
     def onLoadPersonInfoFinished(self, val):
-        self.wmSettings['details'] = val['data']
+        self.mwSettings['details'] = val['data']
         pre = '具体信息. 其中spno为专业代号.\n注意, 此处存在大量意义不明的键.\n'
         self.textInfo.setPlainText(f'{pre}\n{json.dumps(val, ensure_ascii=False, sort_keys=True, indent=4)}')
 
@@ -117,15 +145,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.labelGrade.setText(f'**{d["grade"]}**级')
         self.labelMajorAndNo.setText(f'{d["spname"]} **(专业代号: {d["spno"]})**')
         self.labelCurrentTerm.setText(f'当前学期: **{d["term"]}**')
+        self.mwSettings['stu'] = d
+
+        # 在完成StuInfo的读取后, 可以进行目前学期的读取
+        self.getCurrentTerm()
 
     def onBtnQueryClicked(self):
         term = self.comboBoxTerms.currentText()
         if len(term) == 0:
-            QMessageBox().critical(self, '错误', '学期为空')
+            QMessageBox().critical(self, '错误', '学期为空', QMessageBox.Ok)
             return
         self.btnQuery.setEnabled(False)
         self.btnQuery.setText('加载中')
-        self.worker.getSelectedCourse(term)
+        self.getSelectedCourses(term)
 
     def onLoadCurrentTermFinished(self, val: dict):
         if not val['success']:
@@ -140,8 +172,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.comboBoxTerms.addItems(d)
 
         # 如果getStuInfo先一步执行完的话, 可以自动设置为当前学期
-        if 'term' in self.wmSettings['stu'].keys():
-            term = self.wmSettings['stu']['term']
+        if 'term' in self.mwSettings['stu'].keys():
+            term = self.mwSettings['stu']['term']
             self.comboBoxTerms.setCurrentText(term)
 
     def onLoadSelectedCoursesFinished(self, val: dict):
@@ -172,7 +204,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 无数据判断
         if len(d) == 0:
-            QMessageBox().information(self, '查询结果', '暂无数据')
+            QMessageBox().information(self, '查询结果', '暂无数据', QMessageBox.Ok)
 
     def onLoadAvailableCoursesFinished(self, val: dict):
         pass
@@ -192,6 +224,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if each['used'] != 0:
                 self.comboBoxMajors.addItem(f'{each["spno"]} - {each["spname"]}', each)
 
+    def onLoadDepartmentsFinished(self, val: dict):
+        if not val['success']:
+            self.errorWindow.showErrorMessage(val['reason'])
+            self.errorWindow.show()
+            return
+
+        ...  # TODO 完成后
+
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         """
         重写方法, 程序退出事件. 在程序关闭时关闭Session连接
@@ -205,6 +245,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def categorizeMajorInfo(d: list) -> dict:
         """
         将获得的专业列表, 按照dptNo分类
+        并根据对应
         :return: 返回每个大类对应的专业字典
         """
         ret = {}
