@@ -6,15 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1137</width>
-    <height>684</height>
+    <width>1147</width>
+    <height>675</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <property name="spacing">
+     <number>0</number>
+    </property>
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -27,10 +30,7 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <property name="spacing">
-     <number>0</number>
-    </property>
-    <item row="0" column="0">
+    <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
        <number>1</number>
@@ -270,215 +270,304 @@
            <attribute name="title">
             <string>抢课</string>
            </attribute>
-           <widget class="QComboBox" name="comboBoxMajors">
-            <property name="geometry">
-             <rect>
-              <x>740</x>
-              <y>590</y>
-              <width>361</width>
-              <height>22</height>
-             </rect>
+           <layout class="QGridLayout" name="gridLayout_5" columnstretch="4,3">
+            <property name="leftMargin">
+             <number>3</number>
             </property>
-            <property name="maxVisibleItems">
-             <number>50</number>
+            <property name="topMargin">
+             <number>3</number>
             </property>
-            <property name="duplicatesEnabled">
-             <bool>false</bool>
+            <property name="rightMargin">
+             <number>3</number>
             </property>
-           </widget>
-           <widget class="QListView" name="listView">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>30</y>
-              <width>256</width>
-              <height>192</height>
-             </rect>
+            <property name="bottomMargin">
+             <number>3</number>
             </property>
-           </widget>
-           <widget class="QListView" name="listView_2">
-            <property name="geometry">
-             <rect>
-              <x>290</x>
-              <y>30</y>
-              <width>256</width>
-              <height>192</height>
-             </rect>
+            <property name="spacing">
+             <number>3</number>
             </property>
-           </widget>
-           <widget class="QLabel" name="label">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>10</y>
-              <width>261</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>类别 list view 所有大类, 是个提取</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_2">
-            <property name="geometry">
-             <rect>
-              <x>290</x>
-              <y>10</y>
-              <width>251</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>专业 list view 跟随类别model动态变化</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_3">
-            <property name="geometry">
-             <rect>
-              <x>570</x>
-              <y>10</y>
-              <width>531</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>可选课程 table view 具体信息...</string>
-            </property>
-           </widget>
-           <widget class="QTableView" name="tableView">
-            <property name="geometry">
-             <rect>
-              <x>570</x>
-              <y>30</y>
-              <width>531</width>
-              <height>192</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButton">
-            <property name="geometry">
-             <rect>
-              <x>570</x>
-              <y>230</y>
-              <width>93</width>
-              <height>28</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>加入到候选</string>
-            </property>
-           </widget>
-           <widget class="QTableView" name="tableView_2">
-            <property name="geometry">
-             <rect>
-              <x>40</x>
-              <y>380</y>
-              <width>551</width>
-              <height>192</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_4">
-            <property name="geometry">
-             <rect>
-              <x>40</x>
-              <y>350</y>
-              <width>381</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>要抢的课程 table view 课程信息 ... (拷贝上文)</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="geometry">
-             <rect>
-              <x>950</x>
-              <y>390</y>
-              <width>93</width>
-              <height>28</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>提升优先级</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButton_3">
-            <property name="geometry">
-             <rect>
-              <x>950</x>
-              <y>430</y>
-              <width>93</width>
-              <height>28</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>降低优先级</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_5">
-            <property name="geometry">
-             <rect>
-              <x>80</x>
-              <y>270</y>
-              <width>111</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>这些是草图</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButton_4">
-            <property name="geometry">
-             <rect>
-              <x>940</x>
-              <y>490</y>
-              <width>131</width>
-              <height>28</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>尝试一次选课</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButton_5">
-            <property name="geometry">
-             <rect>
-              <x>940</x>
-              <y>540</y>
-              <width>131</width>
-              <height>28</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>开启蹲课模式</string>
-            </property>
-           </widget>
-           <widget class="QListView" name="listView_3">
-            <property name="geometry">
-             <rect>
-              <x>660</x>
-              <y>380</y>
-              <width>256</width>
-              <height>192</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_6">
-            <property name="geometry">
-             <rect>
-              <x>660</x>
-              <y>350</y>
-              <width>181</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>每一项 抢不到的候选</string>
-            </property>
-           </widget>
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="groupBox">
+              <property name="title">
+               <string>课程浏览</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_7">
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>5</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>5</number>
+               </property>
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <item row="5" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="10,1,1">
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>可选课号</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton">
+                   <property name="text">
+                    <string>↙读取</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btnAddToList">
+                   <property name="text">
+                    <string>→加入到预选</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="3" column="0">
+                <widget class="QTableView" name="tableViewCourses">
+                 <property name="sizeAdjustPolicy">
+                  <enum>QAbstractScrollArea::AdjustIgnored</enum>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::NoSelection</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,3">
+                 <property name="spacing">
+                  <number>4</number>
+                 </property>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_3">
+                   <item>
+                    <widget class="QLabel" name="labelDpts">
+                     <property name="text">
+                      <string>部门</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QListView" name="listViewDpts">
+                     <property name="editTriggers">
+                      <set>QAbstractItemView::NoEditTriggers</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_2">
+                   <item>
+                    <widget class="QLabel" name="labelMajors">
+                     <property name="text">
+                      <string>专业</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QListView" name="listViewMajors">
+                     <property name="editTriggers">
+                      <set>QAbstractItemView::NoEditTriggers</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item row="1" column="0">
+                <widget class="Line" name="line_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QTableView" name="tableViewCourseDetail"/>
+               </item>
+               <item row="2" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="10,1">
+                 <item>
+                  <widget class="QLabel" name="labelT3C">
+                   <property name="text">
+                    <string>可选课程</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btnFetchCourses">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>↙读取</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="title">
+               <string>待选列表</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout">
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>5</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>5</number>
+               </property>
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <item row="2" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <spacer name="horizontalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btnStart">
+                   <property name="text">
+                    <string>开始尝试选课</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="0" column="0">
+                <layout class="QVBoxLayout" name="verticalLayout_4" stretch="2,1">
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_6">
+                   <item>
+                    <widget class="QLabel" name="labelT3D">
+                     <property name="text">
+                      <string>已选课程</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTableView" name="tableViewChoosed">
+                     <property name="editTriggers">
+                      <set>QAbstractItemView::NoEditTriggers</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                   <item>
+                    <widget class="QLabel" name="labelT3E">
+                     <property name="text">
+                      <string>预选顺序</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTableView" name="tableViewCandidate">
+                     <property name="editTriggers">
+                      <set>QAbstractItemView::NoEditTriggers</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_6">
+                     <property name="spacing">
+                      <number>4</number>
+                     </property>
+                     <item>
+                      <spacer name="horizontalSpacer_2">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="btnDel">
+                       <property name="text">
+                        <string>✖删除</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="btnMoveUp">
+                       <property name="text">
+                        <string>↑上移</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="btnMoveDown">
+                       <property name="text">
+                        <string>↓下移</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item row="1" column="0">
+                <widget class="Line" name="line_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>
@@ -493,7 +582,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1137</width>
+     <width>1147</width>
      <height>26</height>
     </rect>
    </property>
@@ -507,14 +596,23 @@
    </widget>
    <widget class="QMenu" name="menuRetry">
     <property name="title">
-     <string>Debug(&amp;D)</string>
+     <string>重新拉取信息(&amp;R)</string>
     </property>
     <addaction name="actionReloadCurTerm"/>
-    <addaction name="actionReloadStuInfo"/>
     <addaction name="actionReloadPersonInfo"/>
+    <addaction name="separator"/>
+    <addaction name="actionReloadStuInfo"/>
+    <addaction name="actionReloadDptsMajors"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>关于(&amp;A)</string>
+    </property>
+    <addaction name="actionUsage"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuRetry"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="status"/>
   <action name="actionLogin">
@@ -524,17 +622,17 @@
   </action>
   <action name="actionReloadCurTerm">
    <property name="text">
-    <string>ReloadCurTerm</string>
+    <string>重新拉取可用学期(&amp;T)</string>
    </property>
   </action>
   <action name="actionReloadStuInfo">
    <property name="text">
-    <string>ReloadStuInfo</string>
+    <string>重新拉取当前状态(&amp;C)</string>
    </property>
   </action>
   <action name="actionReloadPersonInfo">
    <property name="text">
-    <string>ReloadPersonInfo</string>
+    <string>重新拉取个人信息(&amp;P)</string>
    </property>
   </action>
   <action name="actionSettings">
@@ -545,6 +643,16 @@
   <action name="actionErrorWindow">
    <property name="text">
     <string>错误输出(&amp;E)</string>
+   </property>
+  </action>
+  <action name="actionReloadDptsMajors">
+   <property name="text">
+    <string>重新拉取专业信息(&amp;D)</string>
+   </property>
+  </action>
+  <action name="actionUsage">
+   <property name="text">
+    <string>Usage(&amp;U)</string>
    </property>
   </action>
  </widget>

@@ -1,3 +1,4 @@
+import logging
 import sys
 
 from PyQt5.QtGui import QPixmap
@@ -6,6 +7,9 @@ from PyQt5.QtCore import *
 
 from GUETCoursePyQt.Worker.ThreadWorker import HWorker
 from GUETCoursePyQt.Window.UI_LoginWindow import *
+
+# temporary baidu ORC token
+BAIDU_OCR_TOKEN = '24.bb714e66010de2e2c8abfbf62af23d5b.2592000.1628157200.282335-23548153'
 
 
 class LoginWindow(QDialog, Ui_LoginWindow):
@@ -20,6 +24,7 @@ class LoginWindow(QDialog, Ui_LoginWindow):
         self.lineEditAccount.setFocus()  # 默认焦点
         self.btnRefresh.setEnabled(False)
         self.worker.validationReadFinished.connect(self.onLoadValidateCodeFinished)
+        self.worker.identifyImageFinished.connect(self.onImageIdentified)
         self.worker.loginFinished.connect(self.onLoginFinished)
         self.btnRefresh.clicked.connect(self.onBtnRefreshCkCodeClicked)
         self.btnLogin.clicked.connect(self.onBtnLoginClicked)
@@ -43,6 +48,7 @@ class LoginWindow(QDialog, Ui_LoginWindow):
             p = QPixmap()
             p.loadFromData(val['data'])
             self.labelCkCode.setPixmap(p)
+            self.tryIdentifyImage(val['data'], BAIDU_OCR_TOKEN)
         else:
             QMessageBox().critical(self, '发生错误', f'验证码加载失败\n 原因: {val["reason"]}', QMessageBox.Ok)
 
@@ -78,9 +84,15 @@ class LoginWindow(QDialog, Ui_LoginWindow):
         else:
             QMessageBox().critical(self, '登录失败', f'无法登录, 原因\n{val}', QMessageBox.Ok)
 
+    def tryIdentifyImage(self, d: bytes, token: str):
+        self.worker.identityImageBaidu(d, token)
 
-if __name__ == '__main__':
-    a = QApplication(sys.argv)
-    w = LoginWindow(None)
-    w.exec()
-    a.exec()
+    def onImageIdentified(self, val: dict):
+        # 识别内容
+        if val['success'] and 'words_result' in val['data'].keys():
+            l: list = val['data']['words_result']
+            if len(l) != 0 and 'words' in l[0].keys():
+                r: str = l[0]['words']
+                self.lineEditValidationCode.setText(r)
+        else:
+            print(val['reason'])

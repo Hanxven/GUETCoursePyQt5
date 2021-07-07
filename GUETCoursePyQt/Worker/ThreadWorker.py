@@ -1,3 +1,6 @@
+import base64
+
+import requests
 from PyQt5.QtCore import *
 
 from GUETCoursePyQt.GUET.GUET import GUET
@@ -44,6 +47,9 @@ class HWorker(QObject):
     # 读取部门完成
     loadDepartmentsFinished = pyqtSignal(dict)
 
+    # OCR完成
+    identifyImageFinished = pyqtSignal(dict)
+
     def __init__(self, parent):
         super().__init__(parent=parent)
         self.guet: GUET = parent.guet
@@ -77,6 +83,7 @@ class HWorker(QObject):
         c = HWorkerTasks(self
                          , HWorkerTasks.GET_AVAILABLE_COURSES
                          , GUET=self.guet
+                         , grade=grade
                          , term=term
                          , dptNo=dptNo
                          , majorNo=majorNo
@@ -89,6 +96,10 @@ class HWorker(QObject):
 
     def getDepartments(self):
         c = HWorkerTasks(self, HWorkerTasks.GET_DEPARTMENTS, GUET=self.guet)
+        self.pool.start(c)
+
+    def identityImageBaidu(self, d: bytes, token: str):
+        c = HWorkerTasks(self, HWorkerTasks.IDENTIFY_IMAGE_BAIDU, token=token, image=d)
         self.pool.start(c)
 
 
@@ -125,6 +136,9 @@ class HWorkerTasks(QRunnable):
 
     # 目前所有部门
     GET_DEPARTMENTS = 256
+
+    # OCR
+    IDENTIFY_IMAGE_BAIDU = 512
 
     def __init__(self, worker: HWorker, task: int, **kwargs) -> None:
         """
@@ -167,6 +181,9 @@ class HWorkerTasks(QRunnable):
 
         elif self.task == self.GET_DEPARTMENTS:
             self.getDepartments()
+
+        elif self.task == self.IDENTIFY_IMAGE_BAIDU:
+            self.identifyImageBaidu()
 
     def loadValidationCode(self):
         # noinspection PyBroadException
@@ -304,6 +321,30 @@ class HWorkerTasks(QRunnable):
             })
         except Exception as e:
             self.worker.loadDepartmentsFinished.emit({
+                'success': False,
+                'reason': e
+            })
+
+    def identifyImageBaidu(self):
+        # noinspection PyBroadException
+        try:
+            img = base64.b64encode(self.kwargs['image'])
+            headers = {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+            params = {
+                'image': img
+            }
+            d = requests.post(f'https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic'
+                              f'?access_token={self.kwargs["token"]}'
+                              , headers=headers
+                              , data=params)
+            self.worker.identifyImageFinished.emit({
+                'success': True,
+                'data': d.json()
+            })
+        except Exception as e:
+            self.worker.identifyImageFinished.emit({
                 'success': False,
                 'reason': e
             })
