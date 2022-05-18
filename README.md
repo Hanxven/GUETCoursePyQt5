@@ -2,6 +2,8 @@
 
 A script written by PyQt5 Library
 
+暂时搁置的抢课软件。
+
 # Configuration & Environment
 
 - Python Interpreter: python3.9 x64
